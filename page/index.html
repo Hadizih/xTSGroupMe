@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gruppen Zuordnung</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="gruppen-seite">
+        
+        <h2>Gruppen</h2>
+        <div class="add-group-button">
+            <button id="addGroupBtn">+</button>
+        </div>
+        <div class="gruppen-container">
+            <div class="gruppe" id="gruppe1" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div class="gruppe-header" contenteditable="true">Gruppe 1</div>
+                <div class="gruppe-content"></div>
+            </div>
+            <div class="gruppe" id="gruppe2" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div class="gruppe-header" contenteditable="true">Gruppe 2</div>
+                <div class="gruppe-content"></div>
+            </div>
+            <div class="gruppe" id="gruppe3" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div class="gruppe-header" contenteditable="true">Gruppe 3</div>
+                <div class="gruppe-content"></div>
+            </div>
+            <div class="gruppe" id="gruppe4" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div class="gruppe-header" contenteditable="true">Gruppe 4</div>
+                <div class="gruppe-content"></div>
+            </div>
+            <div class="gruppe" id="gruppe5" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div class="gruppe-header" contenteditable="true">Gruppe 5</div>
+                <div class="gruppe-content"></div>
+            </div>
+            <div class="gruppe" id="gruppe6" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div class="gruppe-header" contenteditable="true">Gruppe 6</div>
+                <div class="gruppe-content"></div>
+            </div>
+            <div class="gruppe" id="gruppe7" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div class="gruppe-header" contenteditable="true">Gruppe 7</div>
+                <div class="gruppe-content"></div>
+            </div>
+            <div class="gruppe" id="gruppe8" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div class="gruppe-header" contenteditable="true">Gruppe 8</div>
+                <div class="gruppe-content"></div>
+            </div>
+        </div>
+    </div>
+    <div class="liste-seite">
+        <h2>Teilnehmer</h2>
+        <input type="file" id="csvFileInput" accept=".csv">
+        <table>
+            <thead>
+                <tr id="tableHeaders"></tr>
+            </thead>
+            <tbody id="csvList"></tbody>
+        </table>
+        <div class="add-participant-form">
+            <input type="text" id="nameInput" placeholder="Name">
+            <input type="text" id="classInput" placeholder="Klasse">
+            <input type="number" id="levelInput" placeholder="Level" min="1">
+            <select id="bosskillerInput">
+                <option value="">Bosskiller?</option>
+                <option value="Ja">Ja</option>
+                <option value="Nein">Nein</option>
+            </select>
+            <input type="text" id="favoriteBossInput" placeholder="Bevorzugter Boss">
+            <button id="addParticipantBtn">Hinzufügen</button>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

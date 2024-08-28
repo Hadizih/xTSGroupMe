@@ -9,6 +9,7 @@ import os
 load_dotenv()
 character_data = {}
 registration_open = False
+CHANNEL_ID = os.getenv("CHANNEL_ID")
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -182,8 +183,14 @@ async def open_registration(interaction: discord.Interaction):
         return
     else:
         registration_open = True
+        id = int(CHANNEL_ID)
+        channel = bot.get_channel(id)
+        if channel is None:
+            await interaction.response.send_message(f"Fehler: Der Kanal konnte nicht gefunden werden. Bitte überprüfe die Kanal-ID. ID={id}", ephemeral=True)
+            return
         user = interaction.user.name
-        await interaction.response.send_message(f"{user} hat die Anmeldung für die xTheShouter-Community Runs geöffnet.", ephemeral=False)
+        await channel.send(f"{user} hat die Anmeldung für die xTheShouter-Community Boss Runs geöffnet.")
+        await interaction.response.send_message("Die Anmeldung für die xTheShouter-Community Runs ist jetzt geöffnet.", ephemeral=True)
 
 @bot.tree.command(name="close_registration", description="Schließt die Anmeldung für den Community Run")
 async def close_registration(interaction: discord.Interaction):
@@ -196,7 +203,14 @@ async def close_registration(interaction: discord.Interaction):
         file_name = "community-runs-" + datetime.today().strftime("%Y-%m-%d") + ".csv"
         save_character_data_to_csv(file_name=file_name)
         character_data.clear() 
-        await interaction.response.send_message("Die Anmeldung für die xTheShouter-Community Runs ist jetzt geschlossen.", file=discord.File(file_name), ephemeral=False)
+        id = int(CHANNEL_ID)
+        user = interaction.user.name
+        channel = bot.get_channel(id)
+        if channel is None:
+            await interaction.response.send_message(f"Fehler: Der Kanal konnte nicht gefunden werden. Bitte überprüfe die Kanal-ID. ID={id}", ephemeral=True)
+            return
+        await channel.send(f"{user} hat die Anmeldung für die xTheShouter-Community Boss Runs geschlossen.")
+        await interaction.response.send_message("Anmeldung geschlossen", file=discord.File(file_name), ephemeral=True)
         os.remove(file_name)
 
 @bot.tree.command(name="show_registrations", description="Zeigt alle Anmeldungen für den Community Run")
