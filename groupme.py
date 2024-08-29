@@ -1,5 +1,5 @@
 import discord
-from discord import ui
+from discord import ui, app_commands
 from discord.ext import commands
 from dotenv import load_dotenv
 from datetime import datetime
@@ -144,6 +144,15 @@ def save_character_data_to_csv(file_name=""):
 async def hello(ctx):
     await ctx.send(f"Hallo, {ctx.author.name}!")
 
+@bot.command(name="groupme")
+async def help(ctx):
+    response_message = (
+        "Slash Commands:\n"
+        "/anmelden - Anmeldung für Community Run\n"
+        "/abmelden - Melde dich vom Community Run ab\n"
+    )
+    await ctx.send(response_message)
+
 # Slash commands
 @bot.tree.command(name="anmelden", description="Anmeldung für Community Run")
 async def register(interaction: discord.Interaction):
@@ -175,6 +184,7 @@ async def unregister(interaction: discord.Interaction):
     else:
         await interaction.response.send_message("Du hast keine Anmeldung, die gelöscht werden könnte.", ephemeral=True)
 
+@app_commands.default_permissions(administrator=True)
 @bot.tree.command(name="open_registration", description="Öffnet die Anmeldung für den Community Run")
 async def open_registration(interaction: discord.Interaction):
     global registration_open
@@ -192,6 +202,7 @@ async def open_registration(interaction: discord.Interaction):
         await channel.send(f"{user} hat die Anmeldung für die xTheShouter-Community Boss Runs geöffnet.")
         await interaction.response.send_message("Die Anmeldung für die xTheShouter-Community Runs ist jetzt geöffnet.", ephemeral=True)
 
+@app_commands.default_permissions(administrator=True)
 @bot.tree.command(name="close_registration", description="Schließt die Anmeldung für den Community Run")
 async def close_registration(interaction: discord.Interaction):
     global registration_open
@@ -213,6 +224,7 @@ async def close_registration(interaction: discord.Interaction):
         await interaction.response.send_message("Anmeldung geschlossen", file=discord.File(file_name), ephemeral=True)
         os.remove(file_name)
 
+@app_commands.default_permissions(administrator=True)
 @bot.tree.command(name="show_registrations", description="Zeigt alle Anmeldungen für den Community Run")
 async def show_registration(interaction: discord.Interaction):
     response_message = ""
@@ -229,12 +241,14 @@ async def show_registration(interaction: discord.Interaction):
             )
     await interaction.response.send_message(response_message, ephemeral=True)
 
+@app_commands.default_permissions(administrator=True)
 @bot.tree.command(name="save_registrations", description="Speichert die Anmeldungen in einer CSV-Datei")
 async def save_registration(interaction: discord.Interaction):
     file_name = "community-runs" + datetime.today().strftime("%Y-%m-%d")+".csv"
     save_character_data_to_csv(file_name=file_name)
-    await interaction.response.send_message("Die Anmeldungen wurden erfolgreich exportiert", file=discord.File(file_name), ephemeral=True)
+    await interaction.response.send_message("Die Anmeldungen wurden erfguitolgreich exportiert", file=discord.File(file_name), ephemeral=True)
     os.remove(file_name)
+
 
 
 bot.run(os.getenv("DC_BOT_TOKEN"))
